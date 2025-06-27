@@ -1,0 +1,69 @@
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    
+    <joint name="chassis_camera_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="camera_link"/>
+        <origin xyz="${cx/2-cam_l/2} 0 ${ch/2}" rpy="0.0 0.0 0.0"/>
+    </joint>
+
+    <link name="camera_link">
+        <visual>
+            <origin xyz="0.0 0.0 ${cam_w/4}" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="${cam_l*0.75} ${cam_w*0.35} ${cam_w/2}"/>
+            </geometry>
+            <material name="white" />
+        </visual>
+        <visual>
+            <origin xyz="0.0 0.0 ${cam_w*0.75}" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="${cam_l} ${cam_w/2} ${cam_w/2}"/>
+            </geometry>
+            <material name="white" />
+        </visual>
+        <visual>
+            <origin xyz="0.0 ${-cam_w/4} ${cam_w*0.75}" rpy="0.0 ${pi/2} 0.0"/>
+            <geometry>
+                <cylinder radius="${cam_w/4}" length="${cam_l}"/>
+            </geometry>
+            <material name="white" />
+        </visual>
+        <visual>
+            <origin xyz="0.0 ${cam_w/4} ${cam_w*0.75}" rpy="0.0 ${pi/2} 0.0"/>
+            <geometry>
+                <cylinder radius="${cam_w/4}" length="${cam_l}"/>
+            </geometry>
+            <material name="white" />
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 ${cam_w/2}" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="${cam_l} ${cam_w} ${cam_w}"/>
+            </geometry>
+        </collision>
+        <xacro:box_inertia x="${cam_l}" y="${cam_w}" z="${cam_w}">
+            <origin xyz="0.0 0.0 ${cam_w/2}" rpy="0.0 0.0 0.0"/>
+        </xacro:box_inertia>
+    </link>
+
+    <link name="iris_link">
+        <visual>
+            <geometry>
+                <sphere radius="${cam_r}"/>
+            </geometry>
+            <material name="black" />
+        </visual>
+        <xacro:sphere_inertia r="${cam_r}">
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </xacro:sphere_inertia>
+    </link>
+    <joint name="iris_joint" type="fixed">
+        <parent link="camera_link"/>
+        <child link="iris_link"/>
+        <origin xyz="${cam_l/2} 0 ${cam_w*0.75}" rpy="0.0 0.0 0.0"/>
+    </joint>
+    <gazebo reference="iris_link">
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+</robot>

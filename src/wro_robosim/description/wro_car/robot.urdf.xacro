@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robocar">
+  
+    <link name="base_link"/>
+
+    <xacro:include filename="params.xacro"/>
+    <xacro:include filename="colors.xacro"/>
+    <xacro:include filename="inertials.xacro"/>
+    <xacro:include filename="parts.xacro"/>
+    <xacro:include filename="car.xacro"/>
+    <xacro:include filename="camera.xacro"/>
+    <xacro:include filename="ros2control.xacro"/>
+
+</robot>

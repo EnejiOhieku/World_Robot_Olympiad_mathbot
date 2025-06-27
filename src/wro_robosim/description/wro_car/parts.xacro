@@ -1,0 +1,62 @@
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:macro name="shaft_link" params="link_name">
+        <link name="${link_name}"> 
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="${pi/2} 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${sr}" length="${cy}"/>
+                </geometry>
+                <material name="white"/>
+            </visual>
+            <visual>
+                <origin xyz="0.0 ${cy/2} 0.0" rpy="0 0.0 0.0"/>
+                <geometry>
+                    <sphere radius="${sr}"/>
+                </geometry>
+                <material name="white" />
+            </visual>
+            <visual>
+                <origin xyz="0.0 ${-cy/2} 0.0" rpy="0 0.0 0.0"/>
+                <geometry>
+                    <sphere radius="${sr}"/>
+                </geometry>
+                <material name="white" />
+            </visual>
+
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="${pi/2} 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${sr}" length="${cy}"/>
+                </geometry>
+            </collision>
+
+            <xacro:cylinder_inertia r="${sr}" h="${cy}"> 
+                <origin xyz="0.0 0.0 0.0" rpy="${pi/2} 0.0 0.0"/>
+            </xacro:cylinder_inertia>
+            
+        </link>
+    </xacro:macro>
+
+
+    <xacro:macro name="wheel" params="link_name wr wth">
+        <link name="${link_name}">
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="${pi/2} 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${wr}" length="${wth}"/>
+                </geometry>
+                <material name="black" />
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="${pi/2} 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${wr}" length="${wth}"/>
+                </geometry>
+            </collision>
+            <xacro:cylinder_inertia r="${wr}" h="${wth}"> 
+                <origin xyz="0.0 0.0 0.0" rpy="${pi/2} 0.0 0.0"/>
+            </xacro:cylinder_inertia>
+        </link>
+    </xacro:macro>
+</robot>

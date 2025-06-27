@@ -1,0 +1,32 @@
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- scale -->
+    <xacro:property name="scale" value = "0.7" /> 
+
+    <!-- car length -->
+    <xacro:property name="cx" value = "${scale*0.22}" /> 
+
+    <!-- car breath -->
+    <xacro:property name="cy" value = "${scale*0.18}" />
+
+    <!-- car height -->
+    <xacro:property name="ch" value = "${scale*0.06}" />
+
+    <!-- wheel radius -->
+    <xacro:property name="wr" value = "${scale*0.04}" />
+
+    <!-- front wheel thickness -->
+    <xacro:property name="wth" value = "${scale*0.03}" />
+
+    <!-- shaft radius -->
+    <xacro:property name="sr" value = "${scale*0.005}" />
+
+    <!-- cam lenght -->
+    <xacro:property name="cam_l" value="${scale*0.01}"/>
+
+    <!-- cam width and height -->
+    <xacro:property name="cam_w" value="${scale*0.04}"/>
+
+    <!-- camera iris radius -->
+    <xacro:property name="cam_r" value="${scale*0.005}" />
+    
+</robot>

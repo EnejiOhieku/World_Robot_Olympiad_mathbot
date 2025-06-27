@@ -1,0 +1,6 @@
+{
+    "urdf-visualizer.packages": {
+        "wro_robosim": "${workspaceFolder}"
+    },
+    "urdf-visualizer.renderOnSave": true
+}

@@ -1,0 +1,143 @@
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+    <!-- chassis -->
+    <link name="chassis">
+        <xacro:property name="ratio" value="0.55"/>
+        <visual>
+            <geometry>
+                <box size="${cx} ${cy*ratio} ${ch}"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <material name="red" />
+        </visual>
+        <collision>
+            <geometry>
+                <box size="${cx} ${cy*ratio} ${ch}"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </collision>
+        <xacro:box_inertia x="${cx}" y="${cy*ratio}" z="${ch}" > 
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </xacro:box_inertia>
+    </link>
+    <gazebo reference="chassis"> 
+        <material>Gazebo/Red</material> 
+    </gazebo> 
+    <joint name="base_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="chassis"/>
+        <origin xyz="0.0 0.0 ${ch/2+wr}" rpy="0.0 0.0 0.0"/>
+    </joint>
+    <!--  -->
+
+
+    <!-- rear shaft -->
+    <joint name="chassis_rear_shaft_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="rear_shaft"/>
+        <origin xyz="${-cx*0.35} 0 ${-ch/2}" rpy="0 0.0 0.0"/>
+    </joint>
+    <xacro:shaft_link link_name="rear_shaft"/>
+    <gazebo reference="rear_shaft"> 
+        <material>Gazebo/White</material> 
+    </gazebo>
+    <!--  -->
+
+
+    <!-- front shaft -->
+    <joint name="chassis_front_shaft_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="front_shaft"/>
+        <origin xyz="${cx*0.45} 0 ${-ch/2}" rpy="0 0.0 0.0"/>
+    </joint>
+    <xacro:shaft_link link_name="front_shaft"/>
+    <gazebo reference="front_shaft"> 
+        <material>Gazebo/White</material> 
+    </gazebo>
+    <!--  -->
+
+
+    <!-- front right wheel -->
+    <xacro:wheel link_name="front_right_wheel" wr="${wr}" wth="${wth}"/>
+    <gazebo reference="front_right_wheel"> 
+        <material>Gazebo/Black</material> 
+    </gazebo>
+    <xacro:wheel link_name="front_right_wheel_asm" wr="${wr/2}" wth="${wth/5}"/>
+    <gazebo reference="front_right_wheel_asm"> 
+        <material>Gazebo/Black</material> 
+    </gazebo>
+    <joint name="right_steer_joint" type="revolute">
+        <parent link="front_shaft"/>
+        <child link="front_right_wheel_asm"/>
+        <origin xyz="0.0 ${cy/2-wth/2} 0.0" rpy="0.0 0.0 0.0"/>
+        <limit lower="${-pi/6}" upper="${pi/6}" effort="1000" velocity="1000"/>
+        <axis xyz="0.0 0.0 1"/>
+    </joint>
+    <joint name="front_right_wheel_rotate" type="continuous">
+        <parent link="front_right_wheel_asm"/>
+        <child link="front_right_wheel"/>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <axis xyz="0.0 1 0.0"/>
+        <limit effort="100" velocity="50"/> 
+    </joint>
+    <!--  -->
+    
+
+    <!-- front left wheel -->
+    <xacro:wheel link_name="front_left_wheel" wr="${wr}" wth="${wth}"/>
+    <gazebo reference="front_left_wheel"> 
+        <material>Gazebo/Black</material> 
+    </gazebo>
+    <xacro:wheel link_name="front_left_wheel_asm" wr="${wr/2}" wth="${wth/5}"/>
+    <gazebo reference="front_left_wheel_asm"> 
+        <material>Gazebo/Black</material> 
+    </gazebo>
+    <joint name="left_steer_joint" type="revolute">
+        <parent link="front_shaft"/>
+        <child link="front_left_wheel_asm"/>
+        <origin xyz="0.0 ${-cy/2 +wth/2} 0.0" rpy="0.0 0.0 0.0"/>
+        <limit lower="${-pi/6}" upper="${pi/6}" effort="1000" velocity="1000"/>
+        <axis xyz="0.0 0.0 1"/>
+    </joint>
+    <joint name="front_left_wheel_rotate" type="continuous">
+        <parent link="front_left_wheel_asm"/>
+        <child link="front_left_wheel"/>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <axis xyz="0.0 1 0.0"/>
+        <limit effort="100" velocity="50"/> 
+    </joint>
+    <!--  -->
+
+
+    <!-- rear right wheel -->
+    <xacro:wheel link_name="rear_right_wheel" wr="${wr}" wth="${wth}" />
+    <gazebo reference="rear_right_wheel"> 
+        <material>Gazebo/Black</material> 
+    </gazebo>
+    <joint name="rear_right_wheel_rotate" type="continuous">
+        <parent link="rear_shaft"/>
+        <child link="rear_right_wheel"/>
+        <origin xyz="0.0 ${-cy/2 + wth/2} 0.0" rpy="0.0 0.0 0.0"/>
+        <axis xyz="0 1 0.0"/>
+        <limit effort="1000" velocity="100"/> 
+    </joint>
+    <!--  -->
+
+
+    <!-- rear left wheel -->
+    <xacro:wheel link_name="rear_left_wheel" wr="${wr}" wth="${wth}" />
+    <gazebo reference="rear_left_wheel"> 
+        <material>Gazebo/Black</material> 
+    </gazebo>
+    <joint name="rear_left_wheel_rotate" type="continuous">
+        <parent link="rear_shaft"/>
+        <child link="rear_left_wheel"/>
+        <origin xyz="0.0 ${cy/2 - wth/2} 0.0" rpy="0.0 0.0 0.0"/>
+        <axis xyz="0 1 0.0"/>
+        <limit effort="1000" velocity="100"/> 
+    </joint>
+    <!--  -->
+
+    
+</robot>

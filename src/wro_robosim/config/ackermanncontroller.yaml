@@ -1,0 +1,51 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100
+    use_sim_time: true
+    
+    joint_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    ak_controller:
+      type: ackermann_steering_controller/AckermannSteeringController
+
+ak_controller:
+  ros__parameters:
+
+    open_loop: false
+    velocity_rolling_window_size: 10
+    position_feedback: false
+    rear_wheels_names: [rear_right_wheel_rotate, rear_left_wheel_rotate]
+    front_wheels_names: [right_steer_joint, left_steer_joint]
+
+    traction_joints_names: [rear_right_wheel_rotate, rear_left_wheel_rotate]
+    steering_joints_names: [right_steer_joint, left_steer_joint]
+
+
+    wheelbase: 0.1232
+    front_wheels_radius: 0.028
+    rear_wheels_radius: 0.028
+
+    front_wheel_track: 0.1125
+    rear_wheel_track: 0.1125
+
+    enable_odom_tf: true
+
+    
+    # linear.x.max_velocity: .NAN
+    # linear.x.min_velocity: .NAN
+    # linear.x.max_acceleration: .NAN
+    # linear.x.max_deceleration: .NAN
+    # linear.x.max_acceleration_reverse: .NAN
+    # linear.x.max_deceleration_reverse: .NAN
+    # linear.x.max_jerk: .NAN
+    # linear.x.min_jerk: .NAN
+
+    # angular.z.max_velocity: .NAN
+    # angular.z.min_velocity: .NAN
+    # angular.z.max_acceleration: .NAN
+    # angular.z.max_deceleration: .NAN
+    # angular.z.max_acceleration_reverse: .NAN
+    # angular.z.max_deceleration_reverse: .NAN
+    # angular.z.max_jerk: .NAN
+    # angular.z.min_jerk: .NAN

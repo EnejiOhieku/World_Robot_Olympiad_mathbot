@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="wro_world">
+    <link name="world_base_link"/>
+    <xacro:arg name="mat_config" default="[0, 0, 0, 0]"/>
+
+    <!-- sides extension status -->
+    <xacro:property name="twv" value="${$(arg mat_config)[0]}"/>
+    <xacro:property name="bwv" value="${$(arg mat_config)[1]}"/>
+    <xacro:property name="rwv" value="${$(arg mat_config)[2]}"/>
+    <xacro:property name="lwv" value="${$(arg mat_config)[3]}"/>
+
+
+    <!-- game mat width -->
+    <xacro:property name="mw" value="3.2"/> 
+
+    <!-- outer wall width -->
+    <xacro:property name="oww" value="3"/>
+
+    <!-- inner wall width -->
+    <xacro:property name="iww" value="1"/>
+
+    <!-- game mat height/thickness -->
+    <xacro:property name="mh" value="0.02"/>
+
+    <!-- lane adjustment value -->
+    <xacro:property name="ladj" value="0.4"/>
+    
+
+    <xacro:include filename="colors.xacro"/>
+    <xacro:include filename="inertials.xacro"/>
+    <xacro:include filename="wall.xacro"/>
+
+
+    <!-- mat link loaded from collada meshfile -->
+    <link name="mat_link">
+        <visual name="">
+            <origin xyz="0.0 0.0 0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <mesh filename="file://$(find wro_robosim)/meshes/wro_mat.dae" scale="1 1 1"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 ${mh/2}" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="${mw} ${mw} ${mh}"/>
+            </geometry>
+        </collision>
+        <xacro:box_inertia x="${mw}" y="${mw}" z="${mh}">
+            <origin xyz="0.0 0.0 ${mh/2}" rpy="0.0 0.0 0.0"/>
+        </xacro:box_inertia>
+    </link>
+    <joint name="world_mat_link" type="fixed">
+        <parent link="world_base_link"/>
+        <child link="mat_link"/>
+    </joint>
+
+
+    <!-- side shifting values -->
+    <xacro:property name="tsv" value="${ladj*twv}"/>
+    <xacro:property name="bsv" value="${ladj*bwv}"/>
+    <xacro:property name="rsv" value="${ladj*rwv}"/>
+    <xacro:property name="lsv" value="${ladj*lwv}"/>
+
+    
+    <!-- inner walls lengths -->
+    <xacro:property name="til" value="${iww+rsv+lsv}"/>
+    <xacro:property name="bil" value="${iww+rsv+lsv}"/>
+    <xacro:property name="ril" value="${iww+tsv+bsv}"/>
+    <xacro:property name="lil" value="${iww+tsv+bsv}"/>
+
+
+    <!-- outer wall objects -->
+    <xacro:wall link_name="top_outer_wall" x="${0}" y="${oww/2}" l="${oww}" dir="1"/>
+    <xacro:wall link_name="bottom_outer_wall" x="${0}" y="${-oww/2}" l="${oww}" dir="1"/>
+    <xacro:wall link_name="right_outer_wall" x="${oww/2}" y="${0}" l="${oww}" dir="0"/>
+    <xacro:wall link_name="left_outer_wall" x="${-oww/2}" y="${0}" l="${oww}" dir="0"/>
+
+
+    <!-- inner wall objects -->
+    <xacro:wall link_name="top_inner_wall" x="${rsv/2-lsv/2}" y="${iww/2+tsv}" l="${til}" dir="1"/>
+    <xacro:wall link_name="bottom_inner_wall" x="${rsv/2-lsv/2}" y="${-iww/2-bsv}" l="${bil}" dir="1"/>
+    <xacro:wall link_name="right_inner_wall" x="${iww/2+rsv}" y="${tsv/2-bsv/2}" l="${ril}" dir="0"/>
+    <xacro:wall link_name="left_inner_wall" x="${-iww/2-lsv}" y="${tsv/2-bsv/2}" l="${lil}" dir="0"/>
+
+
+</robot>

@@ -1,0 +1,37 @@
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:property name="wall_h" value="0.1"/>
+    <xacro:property name="wall_th" value="0.007"/>
+
+    <xacro:macro name="wall" params="link_name x y l dir"> 
+        <link name="${link_name}">
+            <visual name="">
+                <origin xyz="0 0 0" rpy="0.0 0.0 0"/>
+                <geometry>
+                    <box size="${wall_th} ${l} ${wall_h}"/>
+                </geometry>
+                <material name="">
+                    <color rgba="1.0 0.0 0.0 1.0"/>
+                    <texture filename=""/>
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0"/>
+                <geometry>
+                    <box size="${wall_th} ${l} ${wall_h}"/>
+                </geometry>
+            </collision>
+            <xacro:box_inertia x="${wall_th}" y="${l}" z="${wall_h}">
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0"/>
+            </xacro:box_inertia>
+        </link>
+        <joint name="${link_name}_joint" type="fixed">
+            <parent link="world_base_link"/>
+            <child link="${link_name}"/>
+            <origin xyz="${x} ${y} ${wall_h/2+0.02}" rpy="0.0 0.0  ${dir*pi/2}"/>
+        </joint>
+        <gazebo reference="${link_name}">
+            <material>Gazebo/Black</material>
+        </gazebo>
+        
+    </xacro:macro>
+</robot>
