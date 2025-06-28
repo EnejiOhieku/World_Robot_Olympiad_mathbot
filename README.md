@@ -29,8 +29,8 @@ We will be dicussing the technologies we in the development of this project.
 ## System Architecture
 In this section we will be describing the entire system by breaking them down into small understable units, giving an overview and the relationship between those units.
 * **Robot Model Description**: The robot model was created by using URDF to describe kinematic Structure. Each parts of the robot is describe as a link having visual, collision and inertial properties. Every link has a relationship to another link in a tree structure called joints which were either fixed, revolute, continuous, prismatic etc.  
-![robot model](/other/car_model.png)  
-Then and overview of its structure as described in the URDF code whose dimensions is under the constraints of the WRO FE RULES. ![robot kinematic structure](/other/robot_kinematic_model.jpg)  
+![robot model](./other/car_model.png)  
+Then and overview of its structure as described in the URDF code whose dimensions is under the constraints of the WRO FE RULES. ![robot kinematic structure](./other/robot_kinematic_model.jpg)  
 The robot is spawn in the virtual world at a random subsection of the straight road in the open challenge configuration and the robot spawns in the parking area in the obstacle challenge configuration. both have their direction randomly selected.
 
 
