@@ -58,7 +58,7 @@ The robot is spawned in the virtual world at a random subsection of the straight
     ![](./other/ak_inv_k.png)
     ![](./other/ak_odometry.png)
     * **Navigation Software**: This tells the controllers what action to take. The decisions of this Software is based on the sensory data such as camera feed, accelerometer and gyroscopes (IMU data) and lidars. The navigation software is divided into two the open world and obstacle world navigation. In the open world navigation we get camera feed from a virtual camera in gazebo and then use opencv to analyze the image and make decisions. The decisions are then sent to the controller which effectively controls the robot and drives it around. For the open challenge its just as simple as detecting a corner and turning; Then count the number of turns to know when the robot has completed 3 laps and stop it. For the Obstacle Challenge its a more complex scenerio that needs high levels of reliablity hence the need for the optimal design of the robot (placement of camera and angle, lighting etc) before editing the virtual robot to be an exact replica of the physical robot (eg mass, dimensions etc) then the Navigation software can be written.  
-    [watch the autonomous driving of the robot](.)
+    [watch the autonomous driving of the robot](https://youtu.be/RFW0DlEDowk?si=KGWBEk2MPxold3K3)
 
 ***
 
