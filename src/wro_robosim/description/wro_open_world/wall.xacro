@@ -10,8 +10,7 @@
                     <box size="${wall_th} ${l} ${wall_h}"/>
                 </geometry>
                 <material name="">
-                    <color rgba="1.0 0.0 0.0 1.0"/>
-                    <texture filename=""/>
+                    <color rgba="0 0.0 0.0 1.0"/>
                 </material>
             </visual>
             <collision>

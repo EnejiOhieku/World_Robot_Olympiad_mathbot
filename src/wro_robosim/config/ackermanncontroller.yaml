@@ -3,17 +3,17 @@ controller_manager:
     update_rate: 100
     use_sim_time: true
     
+    ak_controller:
+      type: ackermann_steering_controller/AckermannSteeringController
     joint_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
-    ak_controller:
-      type: ackermann_steering_controller/AckermannSteeringController
-
 ak_controller:
   ros__parameters:
+    publish_rate: 50.0
 
-    open_loop: false
-    velocity_rolling_window_size: 10
+    base_frame_id: base_link
+
     position_feedback: false
     rear_wheels_names: [rear_right_wheel_rotate, rear_left_wheel_rotate]
     front_wheels_names: [right_steer_joint, left_steer_joint]
@@ -29,7 +29,7 @@ ak_controller:
     front_wheel_track: 0.1125
     rear_wheel_track: 0.1125
 
-    enable_odom_tf: true
+    # use_stamped_vel: false
 
     
     # linear.x.max_velocity: .NAN

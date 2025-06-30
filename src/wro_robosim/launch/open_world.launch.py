@@ -9,7 +9,7 @@ from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.actions import RegisterEventHandler
-from launch.event_handlers import OnProcessStart
+from launch.event_handlers import OnProcessStart, OnProcessExit
 from launch.substitutions import Command
 
 from launch_ros.actions import Node, RosTimer
@@ -45,7 +45,7 @@ def generate_launch_description():
 
     spawn_world_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
                         arguments=['-topic', 'world_description',
-                                   '-entity', 'wro_world', "-z 0.1"],
+                                   '-entity', 'wro_world', "-z 0.01"],
                         output='screen')
 
 
@@ -71,7 +71,7 @@ def generate_launch_description():
     x, y, rotate = 0.5+spawn_location[0], -0.5+spawn_location[1], (driving_direction+0.5)*math.pi
     spawn_robot_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
                         arguments=['-topic', 'robot_description',
-                                   '-entity', 'wro_car', f"-x {x}", f"-y {y}", f"-z 0.2", f"-Y {rotate}"],
+                                   '-entity', 'wro_car', f"-x {x}", f"-y {y}", f"-z 0.5", f"-Y {rotate}"],
                         output='screen')
 
 
@@ -81,9 +81,9 @@ def generate_launch_description():
         arguments=["ak_controller"],
     )
     delayed_ak_drive_spawner = RegisterEventHandler(
-        OnProcessStart(
+        OnProcessExit(
             target_action=spawn_robot_entity,
-            on_start=[ak_drive_spawner],
+            on_exit=[ak_drive_spawner],
         )
     )
 
@@ -94,9 +94,9 @@ def generate_launch_description():
         arguments=["joint_broadcaster"],
     )
     delayed_joint_broad_spawner = RegisterEventHandler(
-        OnProcessStart(
-            target_action=spawn_robot_entity,
-            on_start=[joint_broad_spawner],
+        OnProcessExit(
+            target_action=ak_drive_spawner,
+            on_exit=[joint_broad_spawner],
         )
     )
 
@@ -107,12 +107,12 @@ def generate_launch_description():
 
     # Launch them all!
     return LaunchDescription([
-        gazebo,
         world_state_publisher,
         robot_state_publisher,
+        gazebo,
         RosTimer(period=4.0, actions=[spawn_world_entity]),
-        RosTimer(period=6.0, actions=[spawn_robot_entity]),
+        RosTimer(period=8.0, actions=[spawn_robot_entity]),
         delayed_ak_drive_spawner,
         delayed_joint_broad_spawner,
-        # rviz,
+        rviz,
     ])

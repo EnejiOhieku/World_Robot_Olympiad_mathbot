@@ -1,0 +1,74 @@
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:property name="wall_h" value="0.1"/>
+    <xacro:property name="wall_th" value="0.007"/>
+
+    <xacro:macro name="block" params="link_name x y color *origin"> 
+        <link name="${link_name}">
+            <visual>
+                <origin xyz="${x} ${y} 0.05" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="0.050 0.050 0.100"/>
+                </geometry>
+                <material name="${color.lower()}"/>
+            </visual>
+            <collision>
+                <origin xyz="${x} ${y} 0.05" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="0.050 0.050 0.100"/>
+                </geometry>
+            </collision>
+            <xacro:box_inertia x="0.050" y="0.050" z="0.100">
+                <origin xyz="${x} ${y} 0.05" rpy="0.0 0.0 0.0"/>
+            </xacro:box_inertia>
+        </link>
+        <joint name="${link_name}_joint" type="fixed">
+            <xacro:insert_block name="origin"/>
+            <parent link="world_base_link"/>
+            <child link="${link_name}"/>
+        </joint>
+        <gazebo reference="${link_name}">
+            <material>Gazebo/${color}</material>
+        </gazebo>
+    </xacro:macro>
+
+
+    <xacro:macro name="place_block" params="link_name x y block_data *origin"> 
+        <xacro:if value="${block_data==1}">
+            <xacro:block link_name="${link_name}" x="${x}" y="${y}" color="Red">
+                <xacro:insert_block name="origin"/>
+            </xacro:block>
+        </xacro:if>
+        <xacro:if value="${block_data==2}">
+            <xacro:block link_name="${link_name}" x="${x}" y="${y}" color="Green">
+                <xacro:insert_block name="origin"/>
+            </xacro:block>
+        </xacro:if>
+    </xacro:macro>
+
+
+    <xacro:macro name="section" params="id blocks_data *origin"> 
+        <xacro:place_block link_name="block_0_section_${id}" x="0.4" y="0" block_data="${blocks_data[0]}">
+            <xacro:insert_block name="origin"/>
+        </xacro:place_block>
+
+        <xacro:place_block link_name="block_1_section_${id}" x="0.6" y="0" block_data="${blocks_data[1]}">
+            <xacro:insert_block name="origin"/>
+        </xacro:place_block>
+
+        <xacro:place_block link_name="block_2_section_${id}" x="0.4" y="0.5" block_data="${blocks_data[2]}">
+            <xacro:insert_block name="origin"/>
+        </xacro:place_block>
+
+        <xacro:place_block link_name="block_3_section_${id}" x="0.6" y="0.5" block_data="${blocks_data[3]}">
+            <xacro:insert_block name="origin"/>
+        </xacro:place_block>
+
+        <xacro:place_block link_name="block_4_section_${id}" x="0.4" y="1" block_data="${blocks_data[4]}">
+            <xacro:insert_block name="origin"/>
+        </xacro:place_block>
+
+        <xacro:place_block link_name="block_5_section_${id}" x="0.6" y="1" block_data="${blocks_data[5]}">
+            <xacro:insert_block name="origin"/>
+        </xacro:place_block>
+    </xacro:macro>
+</robot>

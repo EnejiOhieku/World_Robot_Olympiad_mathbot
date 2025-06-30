@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="wro_world">
     <link name="world_base_link"/>
+
+    <xacro:arg name="data" default="[[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]]" />
+
     <xacro:arg name="mat_config" default="[0, 0, 0, 0]"/>
 
     <!-- sides extension status -->
@@ -29,6 +32,7 @@
     <xacro:include filename="colors.xacro"/>
     <xacro:include filename="inertials.xacro"/>
     <xacro:include filename="wall.xacro"/>
+    <xacro:include filename="parts.xacro"/>
 
 
     <!-- mat link loaded from collada meshfile -->
@@ -82,5 +86,74 @@
     <xacro:wall link_name="right_inner_wall" x="${iww/2+rsv}" y="${tsv/2-bsv/2}" l="${ril}" dir="0"/>
     <xacro:wall link_name="left_inner_wall" x="${-iww/2-lsv}" y="${tsv/2-bsv/2}" l="${lil}" dir="0"/>
 
+    <xacro:property name="section_blocks_data" value="${$(arg data)}" />
+
+    <!-- placing block in each section -->
+    <xacro:section id="0" blocks_data="${section_blocks_data[0]}">
+        <origin xyz="0.5 -0.5 ${mh}" rpy="0.0 0.0 0.0"/>
+    </xacro:section>
+    <xacro:section id="1" blocks_data="${section_blocks_data[1]}">
+        <origin xyz="0.5 0.5 ${mh}" rpy="0.0 0.0 ${pi/2}"/>
+    </xacro:section>
+    <xacro:section id="2" blocks_data="${section_blocks_data[2]}">
+        <origin xyz="-0.5 0.5 ${mh}" rpy="0.0 0.0 ${pi}"/>
+    </xacro:section>
+    <xacro:section id="3" blocks_data="${section_blocks_data[3]}">
+        <origin xyz="-0.5 -0.5 ${mh}" rpy="0.0 0.0 ${3*pi/2}"/>
+    </xacro:section>
+
+    <!-- parking area -->
+    <link name="park_wall1">
+        <visual>
+            <geometry>
+                <box size="0.2 0.02 0.1"/>
+            </geometry>
+            <material name="magenta"/>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.2 0.02 0.1"/>
+            </geometry>
+            <material name="magenta"/>
+        </collision>
+        <xacro:box_inertia x="0.2" y="0.02" z="0.1">
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </xacro:box_inertia>
+    </link>
+    <joint name="park_wall1_joint" type="fixed">
+        <parent link="world_base_link"/>
+        <child link="park_wall1"/>
+        <origin xyz="${0.5+0.9} 0.5 ${0.05+mh}" rpy="0.0 0.0 0.0"/>
+    </joint>
+    <gazebo reference="park_wall1">
+        <material>Gazebo/Purple</material>
+    </gazebo>
+
+    <link name="park_wall2">
+        <visual>
+            <geometry>
+                <box size="0.2 0.02 0.1"/>
+            </geometry>
+            <material name="magenta"/>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.2 0.02 0.1"/>
+            </geometry>
+            <material name="magenta"/>
+        </collision>
+        <xacro:box_inertia x="0.2" y="0.02" z="0.1">
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </xacro:box_inertia>
+    </link>
+    <joint name="park_wall2_joint" type="fixed">
+        <parent link="world_base_link"/>
+        <child link="park_wall2"/>
+        <origin xyz="${0.5+0.9} ${0.5-1.5*0.184} ${0.05+mh}" rpy="0.0 0.0 0.0"/>
+    </joint>
+    <gazebo reference="park_wall2">
+        <material>Gazebo/Purple</material>
+    </gazebo>
+    
 
 </robot>

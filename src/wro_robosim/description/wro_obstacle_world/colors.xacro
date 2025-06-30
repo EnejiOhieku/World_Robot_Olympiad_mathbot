@@ -1,5 +1,5 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <material name="red">
+    <material name="green">
         <color rgba="${68/255} ${214/255} ${44/255} 1"/>
     </material>
     
@@ -9,7 +9,7 @@
     </material>
 
 
-    <material name="green">
+    <material name="red">
         <color rgba="${238/255} ${39/255} ${55/255} 1"/>
     </material>
 
