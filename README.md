@@ -62,7 +62,7 @@ The robot is spawned in the virtual world at a random subsection of the straight
 
 ## Self Driving Demo
 
-![watch here](https://youtu.be/UGpp_M0Xb5Y?si=BvGvmoS-xAW7yeRs)
+[![self driving demo](https://img.youtube.com/vi/UGpp_M0Xb5Y/0.jpg)](https://www.youtube.com/watch?v=UGpp_M0Xb5Y)
 
 ***
 
